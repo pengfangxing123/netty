@@ -3,8 +3,13 @@ package com.netty.client.handler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
+
+import java.nio.ByteBuffer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -22,9 +27,28 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
             "an Goetz. His book will give We’ve reached an exciting point—in the next chapter;the counter is: 1 2222" +
             "sdsa ddasd asdsadas dsadasdas"+System.getProperty("line.separator");
 
+    private AtomicInteger count=new AtomicInteger(0);
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if(IdleStateEvent.class.isAssignableFrom(evt.getClass())){
+            IdleStateEvent event=(IdleStateEvent)evt;
+            if(event.state()== IdleState.READER_IDLE &&count.intValue()<4){
+                count.getAndAdd(1);
+                String re_mess="第"+count.intValue()+"发送";
+                byte[] bytes = re_mess.getBytes();
+                ByteBuf buffer = Unpooled.buffer(bytes.length);
+                buffer.writeBytes(bytes);
+                ctx.channel().writeAndFlush(buffer);
+            }else{
+                ctx.fireUserEventTriggered(evt);
+            }
+        }
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        str="客户端消息";
         byte[] req = str.getBytes();
         ByteBuf buffer = null;
 //        ByteBuf duplicate = buffer.duplicate();//复制当前对象，复制后的对象与前对象共享缓冲区，且维护自己的独立索引

@@ -1,5 +1,6 @@
 package com.netty.server.server;
 
+import com.netty.server.handler.HeartBeatHandler;
 import com.netty.server.handler.HelloServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -12,6 +13,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -40,7 +45,9 @@ public class HelloServer {
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
-                    socketChannel.pipeline().addLast(new LineBasedFrameDecoder(2048)) ;
+                    socketChannel.pipeline().addLast(new IdleStateHandler(5,0,0, TimeUnit.SECONDS));
+                    socketChannel.pipeline().addLast(new HeartBeatHandler());
+//                    socketChannel.pipeline().addLast(new LineBasedFrameDecoder(2048)) ;
 //                    socketChannel.pipeline().addLast(new JSONDecoder()) ;
 //                    socketChannel.pipeline().addLast(new LengthFieldPrepender(4)) ;
 //                    socketChannel.pipeline().addLast(new JSONEncoder()) ;
@@ -53,7 +60,7 @@ public class HelloServer {
             // ChannelFuture描述的时异步回调的处理操作
             ChannelFuture future = serverBootstrap.bind(port).sync();
             future.channel().closeFuture().sync();// 等待Socket被关闭
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             workerGroup.shutdownGracefully() ;
@@ -64,6 +71,10 @@ public class HelloServer {
     public static void main(String[] args) {
         HelloServer server = new HelloServer("127.0.0.1", 9098);
         server.start();
+//        for(;;){
+//            System.out.println(LocalDateTime.now());
+//            break;
+//        }
     }
 
 
