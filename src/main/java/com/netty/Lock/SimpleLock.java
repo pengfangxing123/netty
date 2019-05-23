@@ -10,6 +10,7 @@ import java.util.concurrent.locks.Lock;
  */
 public class SimpleLock implements Lock {
     private Help help;
+    private String outStr="111111";
 
     public SimpleLock(){
         this.help=new Help();
@@ -86,6 +87,5 @@ public class SimpleLock implements Lock {
             setState(state);
             return isZreo;
         }
-
     }
 }
