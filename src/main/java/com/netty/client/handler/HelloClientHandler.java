@@ -80,6 +80,8 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
+
+
     }
 
     @Override
@@ -103,5 +105,18 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    public static void main(String[] args) {
+        int i;
+        int j=1;
+       switch (j){
+           case 1 :
+           case 2 :  i=2;
+           case 3:i=3;
+           break;
+           default:i=4;
+       }
+        System.out.println(i);
     }
 }
