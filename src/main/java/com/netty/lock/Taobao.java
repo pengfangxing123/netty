@@ -1,4 +1,4 @@
-package com.netty.Lock;
+package com.netty.lock;
 
 /**
  * @author Administrator

@@ -1,6 +1,4 @@
-package com.netty.Lock;
-
-import java.util.concurrent.locks.ReentrantLock;
+package com.netty.lock;
 
 /**
  * @author Administrator

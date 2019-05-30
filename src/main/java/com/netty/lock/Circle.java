@@ -1,12 +1,7 @@
-package com.netty.Lock;
-
-import sun.applet.Main;
+package com.netty.lock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Circle {

@@ -1,5 +1,6 @@
 package com.netty;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 
 /**
@@ -40,5 +41,7 @@ public class Test {
     public static void main(String[] args) {
         String compute = compute("genius88394688");
         System.out.println(compute);
+
+        ByteBuffer.allocate(10);
     }
 }
