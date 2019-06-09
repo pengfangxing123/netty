@@ -2,6 +2,8 @@ package com.netty;
 
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -39,9 +41,42 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        String compute = compute("genius88394688");
-        System.out.println(compute);
+//        String compute = compute("genius88394688");
+//        System.out.println(compute);
+//
+//        ByteBuffer.allocate(10);
 
-        ByteBuffer.allocate(10);
+        List<Map<String,Integer>> list = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            Map<String, Integer> map = new HashMap<>();
+            if(i/2==0){
+                map.put("name",1);
+            }else{
+                map.put("name",2);
+            }
+            list.add(map);
+        }
+
+//        Map<Object, List<Map<String, Object>>> name = list.stream().collect(Collectors.groupingBy(p -> p.get("name")));
+//        System.out.println(name.toString());
+
+        //break
+//        Optional<Map<String, Object>> name = list.stream().filter(p -> {
+//            if (p.get("name") != null) {
+//                System.out.println("1111");
+//                return true;
+//            }else{
+//                return false;
+//            }
+//        }).findFirst();
+//        System.out.println(name.isPresent());
+
+        //continue
+//        list.forEach(p->{
+//            if (p.get("name")==2)
+//                return;
+//            System.out.println(p.get("name"));
+//        });
+
     }
 }
