@@ -36,7 +36,9 @@ public class Server {
                 //连接事件
                 if(key.isAcceptable()){
                     SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
-                    channel.register(selector,SelectionKey.OP_READ,ByteBuffer.allocate(1024));
+                    channel.configureBlocking(false);
+                    channel.register(selector,SelectionKey.OP_READ);
+                    channel.register(selector,SelectionKey.OP_WRITE);
                 }
 
                 if (key.isReadable()){
