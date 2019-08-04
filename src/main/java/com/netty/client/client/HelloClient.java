@@ -37,7 +37,7 @@ public class HelloClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline().addLast(new IdleStateHandler(4,0,0,TimeUnit.SECONDS));
+                            //socketChannel.pipeline().addLast(new IdleStateHandler(4,0,0,TimeUnit.SECONDS));
 //                            socketChannel.pipeline().addLast(new LengthFieldBasedFrameDecoder(65536, 0, 4, 0, 4));
 //                            socketChannel.pipeline().addLast(new JSONDecoder());
 //                            socketChannel.pipeline().addLast(new LengthFieldPrepender(4));

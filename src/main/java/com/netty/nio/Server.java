@@ -29,25 +29,35 @@ public class Server {
             int n = selector.select();
             if (n==0)
                 continue;//目前个人觉得 这个判断多余的 selector.select()会阻塞
+                        //补充：其实是有必要的，因为select()方法不会一直阻塞，因为epoll在timeout时间内如果没有事件，也会返回
             //获取准备就绪的事件
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()){
                 SelectionKey key=iterator.next();
+
+                //忽略无效的 SelectionKey
+                if(!key.isValid())
+                    continue;
                 //连接事件
                 if(key.isAcceptable()){
                     SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
                     channel.configureBlocking(false);
-                    channel.register(selector,SelectionKey.OP_READ);
-                    channel.register(selector,SelectionKey.OP_WRITE);
+                    channel.register(selector,SelectionKey.OP_READ,ByteBuffer.allocate(1024));
                 }
 
                 if (key.isReadable()){
-                    SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
+                    SocketChannel channel = (SocketChannel) key.channel();
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     int read = channel.read(buffer);
+                    if(read==-1){
+                        System.out.println("没有读取到数据，连接已经被断开");
+                        channel.register(selector,0);//参数为0取消该channel注册
+                        return;
+                    }
                     System.out.println("读取到"+read);
                 }
                 if (key.isWritable() && key.isValid()){
+                    SocketChannel channel = (SocketChannel) key.channel();
                     System.out.println("写入");
                 }
                 if (key.isConnectable()){
@@ -59,3 +69,5 @@ public class Server {
         }
     }
 }
+
+

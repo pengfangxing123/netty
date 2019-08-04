@@ -13,6 +13,11 @@ import io.netty.util.ReferenceCountUtil;
  *
  */
 public class HelloServerHandler extends ChannelInboundHandlerAdapter {
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("1111112222");
+        super.channelActive(ctx);
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -28,7 +33,15 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter {
             retBuf.writeBytes(backMsg.getBytes());
            /* buf.clear();
             buf.writeBytes(backMsg.getBytes());*/
-            ctx.writeAndFlush(retBuf); // 回应的输出操作
+            boolean b = ctx.channel().eventLoop() == ctx.executor();
+            System.out.println(b+"#############");
+            System.out.println(ctx.channel().eventLoop().equals(ctx.executor())+"$$$$$$$$$$$$$$$$$$$$");
+            System.out.println(ctx.channel().eventLoop().inEventLoop());
+            System.out.println(ctx.executor().inEventLoop());
+            System.out.println( ctx.channel().eventLoop().inEventLoop(Thread.currentThread())+"&&&&&&&&&&&&&&&&&");
+            ctx.writeAndFlush(retBuf).await(); // 回应的输出操作
+
+            ctx.close();
         } finally {
             ReferenceCountUtil.release(msg) ; // 释放缓存
         }
