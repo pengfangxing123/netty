@@ -67,7 +67,10 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
 //        }
         buffer = Unpooled.buffer(req.length);
         buffer.writeBytes(req);
+        System.out.println((ctx.executor()==ctx.channel().eventLoop())+"####################");
+        System.out.println(ctx.executor().inEventLoop()+"************");
         ctx.writeAndFlush(buffer).addListener(new ChannelFutureListener() {
+            @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 System.out.println(future.channel().isWritable());
                 System.out.println("发送成功");

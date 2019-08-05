@@ -44,7 +44,7 @@ public class HelloServer {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     //socketChannel.pipeline().addLast(new IdleStateHandler(5,0,0, TimeUnit.SECONDS));
-                    socketChannel.pipeline().addLast(new HeartBeatHandler());
+                    //socketChannel.pipeline().addLast(new HeartBeatHandler());
 //                    socketChannel.pipeline().addLast(new LineBasedFrameDecoder(2048)) ;
 //                    socketChannel.pipeline().addLast(new JSONDecoder()) ;
 //                    socketChannel.pipeline().addLast(new LengthFieldPrepender(4)) ;

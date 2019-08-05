@@ -98,6 +98,7 @@ public class Test {
 //            list.add(map);
 //        }
 
+
 //        Map<Object, List<Map<String, Object>>> name = list.stream().collect(Collectors.groupingBy(p -> p.get("name")));
 //        System.out.println(name.toString());
 

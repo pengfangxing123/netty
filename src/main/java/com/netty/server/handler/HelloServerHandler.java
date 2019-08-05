@@ -2,6 +2,7 @@ package com.netty.server.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -33,6 +34,17 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter {
             retBuf.writeBytes(backMsg.getBytes());
            /* buf.clear();
             buf.writeBytes(backMsg.getBytes());*/
+//            ChannelFuture channelFuture = ctx.writeAndFlush(retBuf);// 回应的输出操作
+//            channelFuture.await();
+            //ctx.channel().write(retBuf);
+            new Thread(()->{
+                ctx.write(retBuf);
+            }).start();
+//            ctx.executor().execute(()->ctx.write(retBuf));
+            System.out.println((ctx.executor()==ctx.channel().eventLoop())+"####################");
+            System.out.println(ctx.executor().inEventLoop()+"************");
+            System.out.println((ctx.channel().eventLoop().inEventLoop())+"%%%%%%%%%%%%%%%%%%%");
+
             boolean b = ctx.channel().eventLoop() == ctx.executor();
             System.out.println(b+"#############");
             System.out.println(ctx.channel().eventLoop().equals(ctx.executor())+"$$$$$$$$$$$$$$$$$$$$");
