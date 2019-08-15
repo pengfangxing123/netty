@@ -52,7 +52,6 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter {
             System.out.println(ctx.executor().inEventLoop());
             System.out.println( ctx.channel().eventLoop().inEventLoop(Thread.currentThread())+"&&&&&&&&&&&&&&&&&");
             ctx.writeAndFlush(retBuf).await(); // 回应的输出操作
-
             ctx.close();
         } finally {
             ReferenceCountUtil.release(msg) ; // 释放缓存
