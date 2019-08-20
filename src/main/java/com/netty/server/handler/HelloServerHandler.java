@@ -36,7 +36,7 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter {
             buf.writeBytes(backMsg.getBytes());*/
 //            ChannelFuture channelFuture = ctx.writeAndFlush(retBuf);// 回应的输出操作
 //            channelFuture.await();
-            //ctx.channel().write(retBuf);
+            ctx.channel().write(retBuf);
             new Thread(()->{
                 ctx.write(retBuf);
             }).start();
