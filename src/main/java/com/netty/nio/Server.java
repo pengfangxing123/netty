@@ -1,6 +1,7 @@
 package com.netty.nio;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
@@ -19,7 +20,7 @@ public class Server {
         //开启一个socket连接
         ServerSocketChannel socketChannel = ServerSocketChannel.open();
         socketChannel.configureBlocking(false);
-        socketChannel.socket().bind(new InetSocketAddress(8090));
+        socketChannel.socket().bind(new InetSocketAddress(Inet4Address.getLocalHost(),8090));
         //开启一个selector
         Selector selector = Selector.open();
         //将socket连接注册到selector

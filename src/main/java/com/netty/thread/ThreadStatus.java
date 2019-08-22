@@ -17,23 +17,15 @@ public class ThreadStatus {
         //threadPool.execute();
 
         List<String> integers = Arrays.asList("111", "22");
-        integers.forEach(p->{
-            System.out.println(p);
-        });
+        integers.forEach(System.out::println);
 
-        integers.parallelStream().forEach(p->{
-            System.out.println(p);
-        });
+        integers.parallelStream().forEach(System.out::println);
 
         new Thread(()-> {
             System.out.println("11111");
             System.out.println("122222");
         }
         ).start();
-        integers.stream().filter(p->{
-           if(p.equals("111"))
-               return true;
-           return false;
-        }).collect(Collectors.toList());
+        integers.stream().filter(p-> p.equals("111")).collect(Collectors.toList());
     }
 }
