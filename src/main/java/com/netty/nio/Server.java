@@ -23,6 +23,7 @@ public class Server {
         socketChannel.socket().bind(new InetSocketAddress(Inet4Address.getLocalHost(),8090));
         //开启一个selector
         Selector selector = Selector.open();
+
         //将socket连接注册到selector
         socketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
@@ -43,7 +44,7 @@ public class Server {
                 if(key.isAcceptable()){
                     SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
                     channel.configureBlocking(false);
-                    channel.register(selector,SelectionKey.OP_READ,ByteBuffer.allocate(1024));
+                    channel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
                 }
 
                 if (key.isReadable()){

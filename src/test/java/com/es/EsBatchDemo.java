@@ -190,6 +190,8 @@ public class EsBatchDemo {
         });
     }
 
+
+
     @Test
     public void testterms() throws Exception {
         //指定集群cluster.name: my-application
@@ -203,7 +205,7 @@ public class EsBatchDemo {
                 .setQuery(query)
                 .setSize(10)
                 .setFrom(0)
-                .get();
+                .execute().actionGet();
 
         SearchHits hits = response.getHits();
         hits.forEach(p->{
