@@ -120,28 +120,31 @@ public class Test {
 //            System.out.println(p.get("name"));
 //        });
 
-        List<Persion> list=Lists.newArrayList();
-        Persion xm = new Persion("xm", "19", "n"),
-            xmm=new Persion("xmm","199","n"),
-            xh = new Persion("xh", "19", "n"),
-            xhh=new Persion("xhh","19","n");
-        list.add(xm);
-        list.add(xmm);
-
-
-//        List<Persion> list2=Lists.newArrayList();
+//        List<Persion> list=Lists.newArrayList();
+//        Persion xm = new Persion("xm", "19", "n"),
+//            xmm=new Persion("xmm","199","n"),
+//            xh = new Persion("xh", "19", "n"),
+//            xhh=new Persion("xhh","19","n");
+//        list.add(xm);
+//        list.add(xmm);
 //
-//        list2.add(xh);
-//        list2.add(xhh);
-        List<String> list2=Lists.newArrayList();
-        list2.add("19");
-        list2.add("18");
-
-        List<Persion> collect = list.stream().filter(p -> {
-            String age = p.getAge();
-            Optional<String> first = list2.stream().filter(o -> o.equals(age)).findFirst();
-            return first.isPresent();
-        }).collect(Collectors.toList());
-        System.out.println(collect.toString());
+//
+////        List<Persion> list2=Lists.newArrayList();
+////
+////        list2.add(xh);
+////        list2.add(xhh);
+//        List<String> list2=Lists.newArrayList();
+//        list2.add("19");
+//        list2.add("18");
+//
+//        List<Persion> collect = list.stream().filter(p -> {
+//            String age = p.getAge();
+//            Optional<String> first = list2.stream().filter(o -> o.equals(age)).findFirst();
+//            return first.isPresent();
+//        }).collect(Collectors.toList());
+//        System.out.println(collect.toString());
+        int n=12;
+        int i = n - (n >>> 2);
+        System.out.println(i);
     }
 }
