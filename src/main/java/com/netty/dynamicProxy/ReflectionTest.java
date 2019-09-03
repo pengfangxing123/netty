@@ -7,15 +7,15 @@ import java.lang.reflect.Constructor;
  */
 public class ReflectionTest {
     public static void main(String[] args) throws Exception{
-//        Class<?> aClass = Class.forName("com.netty.dynamicProxy.Test2");
+//        Class<?> aClass = Class.forName("com.netty.dynamicProxy.ReflectionTest.Test2");
 //        Constructor<?> constructor = aClass.getConstructor(String.class);
 //        Test2 o = (Test2) constructor.newInstance("666");
 //        o.getStr();
 //        new Test1().getStr();
 
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        Class<?> aClass = classLoader.loadClass("com.netty.dynamicProxy.Test2");
-
+        Class<?> aClass = classLoader.loadClass("com.netty.dynamicProxy.ReflectionTest$Test2");
+        System.out.println(aClass.hashCode());
     }
 
     class Test2 {
@@ -29,10 +29,9 @@ public class ReflectionTest {
         }
     }
 
-    class Test1 {
-
+    static class Test1 {
         public void getStr() throws Exception {
-            Class<?> aClass = Class.forName("com.netty.dynamicProxy.Test2");
+            Class<?> aClass = Class.forName("com.netty.dynamicProxy.ReflectionTest$Test2");
             Constructor<?> constructor = aClass.getConstructor(String.class);
             Test2 o = (Test2) constructor.newInstance("666");
             o.getStr();
