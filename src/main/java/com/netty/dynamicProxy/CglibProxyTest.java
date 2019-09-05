@@ -72,18 +72,23 @@ public class CglibProxyTest {
 
         /**
          * https://blog.csdn.net/yhl_jxy/article/details/80633194
-         * @param obj 表示增强的对象，即实现这个接口类的一个对象；
+         * @param obj cglib生成的代理对象
          * @param method method表示要被拦截的方法；
          * @param args
-         * @param proxy 表示要触发父类的方法对象；
+         * @param proxy methodProxy:代理方法
          * @return
          * @throws Throwable
          */
         @Override
         public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-            aopMethod();
-            Object a = method.invoke(s, args);
-            return a;
+//          反射调用 不建议
+//            aopMethod();
+//            Object a = method.invoke(s, args);
+//            return a;
+            System.out.println("执行前...");
+            Object object = proxy.invokeSuper(obj, args);
+            System.out.println("执行后...");
+            return object;
         }
     }
 }
