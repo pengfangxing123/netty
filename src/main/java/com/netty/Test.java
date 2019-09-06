@@ -146,5 +146,6 @@ public class Test {
         int n=12;
         int i = n - (n >>> 2);
         System.out.println(i);
+
     }
 }
