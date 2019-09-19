@@ -1,7 +1,10 @@
 package com.netty.utils;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,6 +61,12 @@ public class NullConvertUtil {
 
 
     public static void main(String[] args) throws Exception {
+        List<PersonT<List<String>>> list= Lists.newArrayList();
+        PersonT<List<String>> stringPersonT = new PersonT<List<String>>("xiaoming", new ArrayList<>());
+        list.add(stringPersonT);
+        list.forEach(p->{
+            System.out.println(p.toString());
+        });
 //        Map<String,Object> map=Maps.newHashMap();
 //        map.put("int",222);
 //        map.put("doub",222.22);
@@ -67,5 +76,22 @@ public class NullConvertUtil {
 //        System.out.println(NullConvertUtil.objConvert(map.get("doub"),Double.class));
 //        System.out.println(NullConvertUtil.objConvert(map.get("str"),String.class));
 //        System.out.println(NullConvertUtil.objConvert(map.get("null"),String.class));
+    }
+}
+class PersonT<T>{
+    private String name;
+    private T  other;
+
+    public PersonT(String name, T other) {
+        this.name = name;
+        this.other = other;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonT{" +
+                "name='" + name + '\'' +
+                ", other=" + other +
+                '}';
     }
 }

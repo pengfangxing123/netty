@@ -1,10 +1,9 @@
 package com.netty.thread;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -44,6 +43,20 @@ public class FutureTest {
 //        for(i=1;i<10;i++){
 //                System.out.println(i);
 //        }
+
+
+//        ExecutorService threadPool = Executors.newFixedThreadPool(10);
+//        List list=new ArrayList<>();
+//        list.forEach(p->{
+//                threadPool.submit((Callable<Object>) () -> {
+//                        try {
+//                                System.out.println("1111");
+//                        } catch (Exception e) {
+//                                return e;
+//                        }
+//                        return null;
+//                });
+//        });
 
         }
 }

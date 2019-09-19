@@ -44,6 +44,7 @@ public class Server {
                 if(key.isAcceptable()){
                     SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
                     channel.configureBlocking(false);
+                    //现在把客户端的channel也注册到了服务端的selector了
                     channel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
                 }
 

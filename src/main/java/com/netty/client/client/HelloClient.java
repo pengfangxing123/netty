@@ -79,7 +79,6 @@ public class HelloClient {
         HelloClient helloClient = new HelloClient("127.0.0.1", 9999);
         helloClient.start();
         //System.out.println(System.getProperty("line.separator"));
+
     }
-
-
 }

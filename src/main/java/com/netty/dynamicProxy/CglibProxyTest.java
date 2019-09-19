@@ -86,7 +86,9 @@ public class CglibProxyTest {
 //            Object a = method.invoke(s, args);
 //            return a;
             System.out.println("执行前...");
-            Object object = proxy.invokeSuper(obj, args);
+            //method.invoke(obj,args)//这个也会死循环，会调用代理类的方法，就是刚调用的方法，父类的方法在代理类中名字不一样
+            Object object = proxy.invoke(obj, args);//这里会死循环,会通过被代理类fastclass找到代理类的方法调用，而不是在代理类中调用父类的目标方法
+            //Object object = proxy.invokeSuper(obj, args);
             System.out.println("执行后...");
             return object;
         }
