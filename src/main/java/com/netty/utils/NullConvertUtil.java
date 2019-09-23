@@ -61,10 +61,10 @@ public class NullConvertUtil {
 
 
     public static void main(String[] args) throws Exception {
-        List<PersonT<List<String>>> list= Lists.newArrayList();
+        List<PersonT<List<String>>> list = Lists.newArrayList();
         PersonT<List<String>> stringPersonT = new PersonT<List<String>>("xiaoming", new ArrayList<>());
         list.add(stringPersonT);
-        list.forEach(p->{
+        list.forEach(p -> {
             System.out.println(p.toString());
         });
 //        Map<String,Object> map=Maps.newHashMap();
