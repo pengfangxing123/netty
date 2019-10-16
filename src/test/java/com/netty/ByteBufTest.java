@@ -9,6 +9,17 @@ import org.junit.Test;
  */
 public class ByteBufTest {
 
+    @Test
+    public void testEqual(){
+//        PooledByteBufAllocator aDefault = PooledByteBufAllocator.DEFAULT;
+//        PooledByteBufAllocator bDeault = PooledByteBufAllocator.DEFAULT;
+//        PooledByteBufAllocator my = new PooledByteBufAllocator();
+//        System.out.println(aDefault.equals(bDeault));
+
+        int i=800;
+        int j=~800+1;
+        System.out.println(800&j);
+    }
 
     @Test
     public void testToByteBuffer() {
