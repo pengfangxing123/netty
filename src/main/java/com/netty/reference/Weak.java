@@ -1,5 +1,6 @@
 package com.netty.reference;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 
 /**

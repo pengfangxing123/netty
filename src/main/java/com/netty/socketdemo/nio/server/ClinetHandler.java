@@ -1,8 +1,7 @@
-package com.netty.socketDemo.nio.server;
+package com.netty.socketdemo.nio.server;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;

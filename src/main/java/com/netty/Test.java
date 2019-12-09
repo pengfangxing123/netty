@@ -2,6 +2,8 @@ package com.netty;
 
 import com.google.common.collect.Lists;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.util.*;
@@ -81,7 +83,7 @@ public class Test {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
 //        String compute = compute("genius88394688");
 //        System.out.println(compute);
 //
@@ -146,5 +148,7 @@ public class Test {
         int n=12;
         int i = n - (n >>> 2);
         System.out.println(i);
+
+        System.out.println(Inet4Address.getLocalHost().getHostAddress());
     }
 }

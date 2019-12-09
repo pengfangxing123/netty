@@ -1,11 +1,7 @@
-package com.netty.socketDemo.nio.server;
+package com.netty.socketdemo.nio.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.channels.*;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * @author Administrator

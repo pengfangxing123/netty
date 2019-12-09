@@ -867,8 +867,7 @@ public class DateUtil {
 		}
 		return lDate;
 	}
-	
-	
+
 	public static void main(String[] args) throws ParseException {
 		/*Date test = getDateTimeFormat(("20171208".substring(0,4) + "-" + "20171208".substring(4,6) + "-" + "20171208".substring(6,8) + " 10:30:00"));
 		List<Date> dayMi = getDayMi(test);

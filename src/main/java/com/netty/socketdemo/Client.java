@@ -1,4 +1,4 @@
-package com.netty.socketDemo;
+package com.netty.socketdemo;
 
 import java.io.*;
 import java.net.*;
