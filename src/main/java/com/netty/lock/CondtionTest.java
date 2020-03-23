@@ -25,6 +25,7 @@ public class CondtionTest {
             lock.lock();    //调用lock.lock()方法的线程就持有了"对象监视器"，其他线程只有等待锁被释放时再次争抢
             System.out.println("await()时间为：" + System.currentTimeMillis());
             condition.await();
+            System.out.println("666666666");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

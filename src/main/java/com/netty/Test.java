@@ -1,6 +1,8 @@
 package com.netty;
 
 import com.google.common.collect.Lists;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
@@ -145,10 +147,16 @@ public class Test {
 //            return first.isPresent();
 //        }).collect(Collectors.toList());
 //        System.out.println(collect.toString());
-        int n=12;
-        int i = n - (n >>> 2);
-        System.out.println(i);
 
-        System.out.println(Inet4Address.getLocalHost().getHostAddress());
+//        int n=12;
+//        int i = n - (n >>> 2);
+//        System.out.println(i);
+//
+//        System.out.println(Inet4Address.getLocalHost().getHostAddress());
+
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+        Resource resource = resourceLoader.getResource("classpath:hhh.txt");
+        String filename = resource.getFilename();
+        System.out.println(filename);
     }
 }
