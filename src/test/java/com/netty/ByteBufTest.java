@@ -4,6 +4,9 @@ import io.netty.buffer.*;
 import io.netty.util.Recycler;
 import org.junit.Test;
 
+import static org.junit.Assert.assertThat;
+import static org.junit.internal.matchers.StringContains.containsString;
+
 /**
  * @author Administrator
  */
@@ -19,6 +22,8 @@ public class ByteBufTest {
         int i=800;
         int j=~800+1;
         System.out.println(800&j);
+
+        //assertThat( "77777", containsString( "developerWorks" ) );
     }
 
     @Test
@@ -34,6 +39,7 @@ public class ByteBufTest {
 
         //很重要，内存释放
         byteBuf.release();
+
     }
 
     /**
