@@ -1,4 +1,4 @@
-package com.netty.io.bio;
+package com.netty.io.bio.tcp;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;

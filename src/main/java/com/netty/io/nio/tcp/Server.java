@@ -1,4 +1,4 @@
-package com.netty.io.nio;
+package com.netty.io.nio.tcp;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -122,8 +122,7 @@ public class Server {
 
                             buffer=ByteBuffer.wrap(sendStr.toString().getBytes(localCharSet));
                             sc.register(selector, SelectionKey.OP_WRITE, buffer);
-                            //sc.write(buffer);
-
+                            sc.write(buffer);
                             //sc.close();
                         }else {
                             //sc.close();
