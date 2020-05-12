@@ -14,10 +14,12 @@ package com.netty.datastructure;
 public class LineCoefficient {
 
     public static void main(String[] args) {
-        double[] x = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ,10, 11} ;
-        //double[] y = {23 , 44 , 32 , 56 , 33 , 34 , 55 , 65 , 45 , 55 } ;
-        double[] y = { 27532, 54769 , 81968 , 107715 , 27726 , 54069 , 79832 , 105786 , 28026 , 57241 ,86664, 116716} ;
-        System.out.println( estimate(x, y, x.length ));
+//        double[] x = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ,10, 11} ;
+//        //double[] y = {23 , 44 , 32 , 56 , 33 , 34 , 55 , 65 , 45 , 55 } ;
+//        double[] y = { 27532, 54769 , 81968 , 107715 , 27726 , 54069 , 79832 , 105786 , 28026 , 57241 ,86664, 116716} ;
+//        System.out.println( estimate(x, y, x.length ));
+
+        System.out.println(Integer.toBinaryString((byte)28));
     }
 
     /**

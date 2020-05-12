@@ -136,7 +136,7 @@ public class RBTree<T extends Comparable<T>> {
         while(x != null){
             y = x;
             cmp = node.key.compareTo(x.key);
-            if(cmp>0){
+            if(cmp<0){
                 x=x.left;
             }else{
                 x=x.right;
@@ -146,7 +146,6 @@ public class RBTree<T extends Comparable<T>> {
 
         node.parent=y;
 
-        node.parent = y;
         if (y!=null) {
             cmp = node.key.compareTo(y.key);
             if (cmp < 0)
@@ -317,6 +316,8 @@ public class RBTree<T extends Comparable<T>> {
                 //假如不存在parent的left也是null
                 parent.left = child;
 
+                //右节点的处理要满足node 不是取代节点的父节点，不然久replace.rigth=replace了，
+                //为啥左节点不要考虑这个呢，因为repalce是从node的右子树中取的
                 replace.right = node.right;
                 setParent(node.right, replace);
             }
@@ -334,8 +335,12 @@ public class RBTree<T extends Comparable<T>> {
         }
 
         if (node.left !=null) {
+            //这个时候left !=null，那么right 肯定为null
             child = node.left;
         } else {
+            //这个时候left==null,right不确定，
+            // 假如 right!=null ,parent.right=node.node,为null的话也可以这样处理，
+            // 两个子节点为Null的话parent指向node的点也为null
             child = node.right;
         }
 
