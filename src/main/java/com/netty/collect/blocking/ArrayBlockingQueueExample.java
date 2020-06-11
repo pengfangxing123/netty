@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
+ * 基于环形数组，需要初始值，不能扩容
+ * 并且有一个可选的参数来指定是否需 要公平性。若设置了公平参数， 则那么等待了最长时间的线程会优先得到处理
+ * 不能传入往队列中写入null，因为有poll类似的方法，没有元素时会返回null
  * @author 86136
  */
 public class ArrayBlockingQueueExample {

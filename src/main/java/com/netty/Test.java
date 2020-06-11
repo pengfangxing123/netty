@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -85,7 +87,7 @@ public class Test {
         }
     }
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, ExecutionException, InterruptedException {
 //        String compute = compute("genius88394688");
 //        System.out.println(compute);
 //
@@ -101,7 +103,13 @@ public class Test {
 //            }
 //            list.add(map);
 //        }
-
+//
+//        IntSummaryStatistics name = list.stream().collect(Collectors.summarizingInt(p -> p.get("name")));
+//        double average = name.getAverage();
+//        long count = name.getCount();
+//        int max = name.getMax();
+//        int min = name.getMin();
+//        long sum = name.getSum();
 
 //        Map<Object, List<Map<String, Object>>> name = list.stream().collect(Collectors.groupingBy(p -> p.get("name")));
 //        System.out.println(name.toString());
@@ -153,10 +161,37 @@ public class Test {
 //        System.out.println(i);
 //
 //        System.out.println(Inet4Address.getLocalHost().getHostAddress());
+//        List<Integer>list=new ArrayList<>();
+//        Integer minValue = list.stream().collect(Collectors.collectingAndThen(
+//                Collectors.minBy(Comparator.comparingInt(a -> a)), p-> p.orElse(null))
+//        );
 
-        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("classpath:hhh.txt");
-        String filename = resource.getFilename();
-        System.out.println(filename);
+
+//        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+//        Resource resource = resourceLoader.getResource("classpath:hhh.txt");
+//        String filename = resource.getFilename();
+//        System.out.println(filename);
+
+        final CompletableFuture<String> futureOne = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                System.out.println("futureOne InterruptedException");
+            }
+            return "futureOneResult";
+        });
+        final CompletableFuture<String> futureTwo = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                System.out.println("futureTwo InterruptedException");
+            }
+            return "futureTwoResult";
+        });
+        //CompletableFuture future = CompletableFuture.allOf(futureOne, futureTwo);
+        //System.out.println(future.get());
+        CompletableFuture completableFuture = CompletableFuture.anyOf(futureOne, futureTwo);
+        System.out.println(completableFuture.get());
+
     }
 }

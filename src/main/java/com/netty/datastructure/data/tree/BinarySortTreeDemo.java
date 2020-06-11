@@ -54,7 +54,6 @@ class BsTree{
 
         //删除逻辑
         if(node.left==null&&node.right==null){
-            //叶子节点直接删除
             if(parent!=null ){
                 if(parent.left==node){
                     //左节点
@@ -76,7 +75,11 @@ class BsTree{
             deleNode(leftMax.value);
 
             //左子树最大节点代替node
-            leftMax.left=node.left;
+            //注意这个判断，左子树最大节点的父节点如果是要删除的节点，那么久不需要这一步，不然久会leftMax.left=leftMax
+            if(node.left!=leftMax){
+                leftMax.left=node.left;
+            }
+
             leftMax.right=node.right;
 
             //parent为空node为root,也要替换
@@ -128,11 +131,12 @@ class BsTree{
             deleNode(leftMax.value);
 
             //左子树最大节点代替node
-            leftMax.left=node.left;
-            //注意这个判断，左子树最大节点的父节点如果是要删除的节点，那么久不需要这一步，不然久会leftMax.right=leftMax
-            if(node.right!=leftMax){
-                leftMax.right=node.right;
+            //注意这个判断，左子树最大节点的父节点如果是要删除的节点，那么久不需要这一步，不然久会leftMax.left=leftMax
+            if(node.left!=leftMax){
+                leftMax.left=node.left;
             }
+
+            leftMax.right=node.right;
 
             //parent为空node为root,也要替换
             if(parent==null){

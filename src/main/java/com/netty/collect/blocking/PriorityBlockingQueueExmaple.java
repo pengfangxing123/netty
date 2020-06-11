@@ -5,6 +5,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * 没有边界，有排序
+ * 不能传入往队列中写入null，因为有poll类似的方法，没有元素时会返回null
  * @author 86136
  */
 public class PriorityBlockingQueueExmaple {
@@ -14,7 +15,7 @@ public class PriorityBlockingQueueExmaple {
 
     public void testOfferMethod (){
         PriorityBlockingQueue<Object> queue = create(10);
-        queue.offer("str");
+        boolean str = queue.offer("str");
     }
 
     public static void main(String[] args) {

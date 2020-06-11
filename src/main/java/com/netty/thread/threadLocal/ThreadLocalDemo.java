@@ -24,13 +24,11 @@ public class ThreadLocalDemo {
     public static void main(String[] args) throws InterruptedException {
         ThreadLocalDemo demo = new ThreadLocalDemo();
         for(int i=0;i<50;i++){
-            new Thread(){
-                @Override
-                public void run() {
-                    Val<Integer> val = demo.c.get();
-                    val.data++;
-                }
-            }.start();
+            new Thread(() -> {
+                Val<Integer> val = demo.c.get();
+                val.data++;
+                demo.c.set(val);
+            }).start();
         }
 
         Thread.sleep(3000);

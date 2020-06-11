@@ -1,6 +1,7 @@
 package com.netty.innnerclass;
 
 /**
+ * 测试主类
  * @author 86136
  */
 public class Test1 {
@@ -57,11 +58,13 @@ public class Test1 {
     public void test() {
         //外部类可以间接的访问内部类的静态私有属性
         System.out.println(InTest2.address2);
-        InTest1 inTest1 = new InTest1();
-        System.out.println(inTest1.address1);
         //非静态则要创建内部类对象
         InTest2 inTest2 = new InTest2();
         System.out.println(inTest2.tt);
+
+        //外部类访问非静态内部类的非静态属性要创建内部类对象
+        InTest1 inTest1 = new InTest1();
+        System.out.println(inTest1.address1);
     }
 
     public static void test2() {
