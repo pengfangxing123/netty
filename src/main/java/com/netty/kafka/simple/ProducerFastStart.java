@@ -1,9 +1,13 @@
 package com.netty.kafka.simple;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.aspectj.weaver.ast.Var;
 
 import java.util.Properties;
+import java.util.concurrent.Future;
 
 /**
  * 代码清单1-1
@@ -22,20 +26,23 @@ public class ProducerFastStart {
         properties.put("bootstrap.servers", brokerList);
 
 
-        KafkaProducer<String, String> producer =
-                new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record =
-                new ProducerRecord<>(topic, "hello, Kafka!");
+        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "hello, Kafka!");
         try {
-            for (int i=0 ;i <10;i++){
-                producer.send(record);
-            }
-            Thread.sleep(10000);
-            for (int i=0 ;i <10;i++){
-                producer.send(record);
-            }
+//            for (int i=0 ;i <10;i++){
+//                producer.send(record);
+//            }
 
-//            producer.send(record).get();
+            Future<RecordMetadata> send = producer.send(record, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata metadata, Exception exception) {
+                    if (exception == null) {
+                        System.out.println(metadata.partition() + ":" + metadata.offset());
+                    }
+                }
+            });
+            RecordMetadata metadata = send.get();
+            System.out.println(metadata.partition() + ":" + metadata.offset());
         } catch (Exception e) {
             e.printStackTrace();
         }

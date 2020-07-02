@@ -156,9 +156,9 @@ public class Test {
 //        }).collect(Collectors.toList());
 //        System.out.println(collect.toString());
 
-//        int n=12;
-//        int i = n - (n >>> 2);
-//        System.out.println(i);
+        int n=12;
+        int i = n - (n >>> 2);
+        System.out.println(i);
 //
 //        System.out.println(Inet4Address.getLocalHost().getHostAddress());
 //        List<Integer>list=new ArrayList<>();
@@ -172,26 +172,6 @@ public class Test {
 //        String filename = resource.getFilename();
 //        System.out.println(filename);
 
-        final CompletableFuture<String> futureOne = CompletableFuture.supplyAsync(() -> {
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException e) {
-                System.out.println("futureOne InterruptedException");
-            }
-            return "futureOneResult";
-        });
-        final CompletableFuture<String> futureTwo = CompletableFuture.supplyAsync(() -> {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                System.out.println("futureTwo InterruptedException");
-            }
-            return "futureTwoResult";
-        });
-        //CompletableFuture future = CompletableFuture.allOf(futureOne, futureTwo);
-        //System.out.println(future.get());
-        CompletableFuture completableFuture = CompletableFuture.anyOf(futureOne, futureTwo);
-        System.out.println(completableFuture.get());
 
     }
 }

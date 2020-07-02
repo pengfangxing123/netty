@@ -22,7 +22,7 @@ public class HelloServer {
     public void start() {
         // 线程池是提升服务器性能的重要技术手段，利用定长的线程池可以保证核心线程的有效数量
         // 在Netty之中线程池的实现分为两类：主线程池（接收客户端连接）、工作线程池（处理客户端连接）
-        EventLoopGroup bossGroup = new NioEventLoopGroup(10); // 创建接收线程池
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1); // 创建接收线程池
         EventLoopGroup workerGroup = new NioEventLoopGroup(20); // 创建工作线程池
         System.out.println("服务器启动成功，监听端口为：" +port);
         try {

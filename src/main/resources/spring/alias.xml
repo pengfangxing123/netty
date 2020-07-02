@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <alias name="hongqi" alias="resourceHolder1"/>
+    <alias name="hongqi" alias="resourceHolder2"/>
+    <alias name="hongqi" alias="resourceHolder3"/>
+
+    <bean id="hongqi" class="com.netty.spring.xml.service.imp.Hongqi" >
+        <property name="name" value="David"/>
+    </bean>
+</beans>

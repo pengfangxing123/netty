@@ -3,22 +3,20 @@ package com.netty.datastructure.data.tree;
 /**
  * 网上别人写的平衡树，
  * 有删除方法，以递归的方式找到要删除的节点，然后可以判断寻找改节点的链路上所有节点，来判断是否失衡
+ * 这个的旋转有问题，没有处理父节点的指向，添加的时候一些不平衡的没有正确判断，也有问题
+ * 只用来借鉴下节点删除的思想
  */
 public class AVLTree {
- 
-	private class Node {
-		private Node left;
-		private int value;
-		private Node right;
-		private int height = -1;
- 
-		private Node(int value) {
-			this.value = value;
-		}
- 
-		private Node() {
- 
-		}
+	public static void main(String[] args) {
+		AVLTree avlTree = new AVLTree();
+		avlTree.add(3);
+		avlTree.add(2);
+		avlTree.add(6);
+		avlTree.add(5);
+		avlTree.add(7);
+		avlTree.showTree();
+		avlTree.add(4);
+		avlTree.showTree();
 	}
 	
 	Node head;
@@ -132,7 +130,7 @@ public class AVLTree {
 				root.right = deleteNode(root.right, pre.value);
 			}else {
 				//左右结点仅有一个或者都为空
-				//实际的删除就发送在下面这条语句中，
+				//实际的删除就发生在下面这条语句中，
 				//当执行root.right = deleteNode(root.right, pre.value)再次进入方法至此
 				//因为该节点是叶子节点，左右子树为空
 				//拿左右子树将其覆盖即为删除该节点
@@ -185,9 +183,34 @@ public class AVLTree {
 		System.out.print(node.value+" ");
 		print(node.right);
 	}
+
+	private void print2(Node node) {
+		if (node == null) {
+			return;
+		}
+		System.out.print(node.value+" ");
+		print2(node.left);
+		print2(node.right);
+	}
  
 	public void showTree() {
-		print(head);
+		print2(head);
 		System.out.println();
 	}
+
+	private class Node {
+		private Node left;
+		private int value;
+		private Node right;
+		private int height = -1;
+
+		private Node(int value) {
+			this.value = value;
+		}
+
+		private Node() {
+
+		}
+	}
+
 }

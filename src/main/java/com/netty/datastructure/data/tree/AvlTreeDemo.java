@@ -59,6 +59,7 @@ class AvlTree{
                 leftMax.left=node.left;
             }
 
+            //下面的操作时错误的，因为没有考虑父节点指向问题
             leftMax.right=node.right;
 
             //parent为空node为root,也要替换
@@ -93,6 +94,27 @@ class AvlTree{
             return null;
         }
         return root.search(value);
+    }
+
+    /**
+     * 非递归查找
+     * @param value
+     * @return
+     */
+    public AvlNode searchNoRecurse(int value){
+        AvlNode cur =root;
+        AvlNode dest=null;
+        while(cur!=null){
+            if(cur.value==value){
+                dest=cur;
+                break;
+            }else if(value>cur.value){
+                cur=cur.right;
+            }else {
+                cur=cur.left;
+            }
+        }
+        return dest;
     }
 
     /**
@@ -176,18 +198,38 @@ class AvlNode{
             //这个说明路径长的再右子树，而右子树是要添加到右旋节点的左节点的，如果是长的话久会导致，不满足平衡树，
             // 所以左子节点要左旋先预处理
             if(left.rightHeihht()>left.leftHeihht()){
-                leftRotate();
+                left.leftRotate();
             }
             rightHeihht();
         }
 
         //当添加完一个结点后，如果 (右子树的高度 - 左子树的高度) > 1, 左旋转
         if(rightHeihht()-leftHeihht()>1){
+            /**
+             *
+             *      3                 6
+             *     / \               / \
+             *    2   6             3  7
+             *       / \           / \
+             *      5   7         2   5
+             *     /                 /
+             *    4                 4
+             */
+            /**
+             *
+             *      3                 3               5
+             *     / \               / \             / \
+             *    2   6             2  5            3   6
+             *       / \              / \          / \   \
+             *      5   7            4   6        2   4   7
+             *     /                      \
+             *    4                        7
+             */
             //如果右子节点的左子树大于右子树的高度，子节点右旋
             //这个说明路径长的在左子树，而左子树是要添加到右旋节点的右节点的，如果是长的话久会导致，不满足平衡树，
             // 所以右子节点要右旋先预处理
             if(right.leftHeihht()>right.rightHeihht()){
-                rightRotate();
+                right.rightRotate();
             }
             leftRotate();
         }
@@ -223,6 +265,26 @@ class AvlNode{
         left=newNode;
         //替换后节点右节点指向 原节点的right
         right=right.right;
+    }
+
+
+    /**
+     * 处理父节点的 左旋
+     */
+    public void leftRotate2(){
+        AvlNode parent = searchParent(value);
+
+        AvlNode up=this.right;
+        this.right=right.left;
+        right.left=this;
+
+        if(parent!=null&&parent.left==this){
+            parent.left=up;
+        }
+        if(parent!=null&&parent.right==this){
+            parent.right=up;
+        }
+
     }
 
     /**
@@ -269,7 +331,7 @@ class AvlNode{
     }
 
     /**
-     * 找指的节点的父节点
+     * 找指定节点的父节点
      * @param value
      * @return
      */
@@ -281,7 +343,7 @@ class AvlNode{
         if(this.value>value && this.left!=null){
             return this.left.searchParent(value);
         }else if (this.value<value && this.right!=null){
-            //这里是不能用小于等于的，假如是value是root节点，用小于等于的，
+            //这里是不能用小于等于的，假如是value是root节点，用小于等于的话，
             // 假如右子树中有值和root节点相同的节点，这个时候找到的父节点不为null，而实际应该为Null
             return  this.right.searchParent(value);
         }else{

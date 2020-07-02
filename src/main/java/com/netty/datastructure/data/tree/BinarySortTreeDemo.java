@@ -68,24 +68,16 @@ class BsTree{
             }
         }else if(node.left!=null && node.right!=null){
             //节点有两个子节点
+            //找左子树的最大值，或者右子树的最小值用来替换
+
             BsNode leftMax = node.searchLeftMax();
 
             //删除左子树最大节点
             //这里很重要，因为是递归删除，所以不用在这个if语句中考虑这个leftmax 的左子节点问题，因为在删除该leftmax的时候会考虑
             deleNode(leftMax.value);
 
-            //左子树最大节点代替node
-            //注意这个判断，左子树最大节点的父节点如果是要删除的节点，那么久不需要这一步，不然久会leftMax.left=leftMax
-            if(node.left!=leftMax){
-                leftMax.left=node.left;
-            }
-
-            leftMax.right=node.right;
-
-            //parent为空node为root,也要替换
-            if(parent==null){
-                root=leftMax;
-            }
+            //直接替换值，不用考虑父节点指向问题
+            leftMax.value=value;
         }else{
             //节点只有一个子节点
             if(parent!=null){
