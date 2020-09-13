@@ -29,7 +29,8 @@ public class SpiDemo {
         }
 
         //测试迭代器创建后，再添加元素是否能被迭代出来，
-        //答案是不可以的
+        //答案是不可以的，因为初始化迭代器，或者调用next()时会把下一个元素指，下一个需要取出的元素，
+        //hasNext()就是比较下一个需要取出的元素是否存在
 //        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 //        Iterator<Map.Entry<String, Object>> iterator = map.entrySet().iterator();
 //        while (iterator.hasNext()){

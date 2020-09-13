@@ -13,10 +13,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ScheduledThreadPoolBuild {
     public static void main(String[] args) throws InterruptedException {
-        testFixDelay();
+        testSchedule();
+
+        //testFixDelay();
 
         //testFixRate();
 
+    }
+
+    private static void testSchedule() {
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10);
+        executorService.schedule(()->{
+            System.out.println(" ##########into"+ LocalTime.now()+"："+Thread.currentThread().getName());
+            System.out.println("finished"+ LocalTime.now());
+        },5000000,TimeUnit.SECONDS);
     }
 
     /**

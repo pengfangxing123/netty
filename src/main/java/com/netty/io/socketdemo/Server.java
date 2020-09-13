@@ -13,7 +13,7 @@ import java.net.Socket;
 public class Server {
 
     public static void main(String[] args) throws Exception {
-        ServerSocket server = new ServerSocket(2000);
+        ServerSocket server = new ServerSocket(9098);
         System.out.println("server start ...");
 
         server=ininServer(server);

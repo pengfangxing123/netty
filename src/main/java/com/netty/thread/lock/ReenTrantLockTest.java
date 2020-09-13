@@ -1,6 +1,7 @@
 package com.netty.thread.lock;
 
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author Administrator
@@ -9,11 +10,16 @@ public class ReenTrantLockTest {
     private String name;
 
     public static void main(String[] args) throws InterruptedException {
+        testReentrantLock();
+
+    }
+
+    private static void testReentrantLock() throws InterruptedException {
         ReentrantLock lock = new ReentrantLock(true);
         new Thread(() -> {
             System.out.println("第一个线程启动");
             lock.lock();
-            try {
+                try {
                 Thread.sleep(60);
                 lock.unlock();
             } catch (InterruptedException e) {

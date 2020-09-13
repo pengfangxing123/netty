@@ -2,16 +2,22 @@ package com.netty.netty.client.client;
 
 import com.netty.netty.client.handler.HelloClientHandler;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 /**
  *
  */
 public class HelloClient {
-
+    private NioSocketChannel channel;
+    private CountDownLatch count=new CountDownLatch(1);
     private String host;
     private int port;
 
@@ -41,8 +47,27 @@ public class HelloClient {
                         }
                     });
             ChannelFuture channelFuture = client.connect("127.0.0.1", 9098);
-            channelFuture.sync().addListener(new ReconnectListener());
+            channelFuture.sync().addListener(new ReconnectListener(channelFuture));
+//            new Thread(()->{
+//                try {
+//                    count.await();
+//                    for(int i =0 ;i<50;i++){
+//                        ByteBufAllocator allocator = channel.config().getAllocator();
+//                        ByteBuf buffer = allocator.buffer(1024);
+//                        buffer.writeBytes(("第"+i+"次发送").getBytes());
+//                        channel.pipeline().writeAndFlush(buffer);
+//                        TimeUnit.SECONDS.sleep(2);
+//                    }
+//
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }).start();
+            channel= (NioSocketChannel) channelFuture.channel();
+            count.countDown();
             channelFuture.channel().closeFuture().sync(); // 关闭连接
+            System.out.println("客户端被关闭");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -51,9 +76,16 @@ public class HelloClient {
     }
 
     class ReconnectListener implements ChannelFutureListener{
+        ChannelFuture channelFuture;
+
+        public ReconnectListener(ChannelFuture channelFuture) {
+            this.channelFuture = channelFuture;
+        }
 
         @Override
         public void operationComplete(ChannelFuture future) throws Exception {
+            //这里是相等的
+            System.out.println("future是否相等："+channelFuture.equals(channelFuture));
             System.out.println(future.isDone());
             if(!future.isSuccess()){
                 EventLoop loop = future.channel().eventLoop();

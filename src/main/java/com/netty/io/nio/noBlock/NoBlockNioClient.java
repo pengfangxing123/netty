@@ -21,12 +21,17 @@ public class NoBlockNioClient {
          // 打开 Client Socket Channel
          clientSocketChannel = SocketChannel.open();
          // 配置为非阻塞,把这里注释掉，确保已经连接上
-         //clientSocketChannel.configureBlocking(false);
+         clientSocketChannel.configureBlocking(false);
 
          clientSocketChannel.connect(new InetSocketAddress(8090));
 
+         boolean flage=true;
+         while (flage){
+            clientSocketChannel.finishConnect();
+             flage=false;
+         }
          ByteBuffer buffer = ByteBuffer.allocate(1024);
-         String content="非阻塞Io";
+         String content="客户端消息非阻塞Io";
          buffer.put(content.getBytes(StandardCharsets.UTF_8));
          buffer.flip();
          clientSocketChannel.write(buffer);
@@ -37,7 +42,7 @@ public class NoBlockNioClient {
          buffer.flip();
          byte[] bytes = new byte[read];
          buffer.get(bytes);
-         System.out.println("接受成功"+new String(bytes,StandardCharsets.UTF_8));
+         System.out.println("接受成功："+new String(bytes,StandardCharsets.UTF_8));
          TimeUnit.SECONDS.sleep(5);
      }
 

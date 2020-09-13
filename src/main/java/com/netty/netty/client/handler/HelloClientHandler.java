@@ -8,6 +8,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -39,6 +40,7 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
                 ByteBuf buffer = Unpooled.buffer(bytes.length);
                 buffer.writeBytes(bytes);
                 ctx.channel().writeAndFlush(buffer);
+
             }else{
                 ctx.fireUserEventTriggered(evt);
             }
@@ -64,6 +66,7 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
 //                }
 //            });
 //        }
+        boolean writable = ctx.channel().isWritable();
         buffer = Unpooled.buffer(req.length);
         buffer.writeBytes(req);
         System.out.println((ctx.executor()==ctx.channel().eventLoop())+"####################");
@@ -81,8 +84,10 @@ public class HelloClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("连接被关闭");
+        TimeUnit.SECONDS.sleep(10);
+        System.out.println("连接关闭后 睡眠完毕");
         super.channelInactive(ctx);
-
 
     }
 

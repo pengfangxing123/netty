@@ -1,11 +1,16 @@
 package com.netty.netty.server.server;
 
+import com.netty.netty.server.handler.HeartBeatHandler;
 import com.netty.netty.server.handler.HelloServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -30,13 +35,21 @@ public class HelloServer {
             ServerBootstrap serverBootstrap = new ServerBootstrap();   // 服务器端
             // 设置要使用的线程池以及当前的Channel类型
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class);
-            //serverBootstrap.handler(new HelloServerHandler()); server自己的handler类
+            //server自己的handler类
+            //serverBootstrap.handler(new HelloServerHandler());
+            serverBootstrap.handler(new ChannelInitializer<ServerSocketChannel>() {
+                @Override
+                protected void initChannel(ServerSocketChannel serverSocketChannel) throws Exception {
+                    serverSocketChannel.pipeline().addLast(new NioEventLoopGroup(10) ,new HelloServerHandler()); // 追加了处理器
+                }
+            });
+
             // 接收到信息之后需要进行处理，于是定义子处理器
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
-                    //socketChannel.pipeline().addLast(new IdleStateHandler(5,0,0, TimeUnit.SECONDS));
-                    //socketChannel.pipeline().addLast(new HeartBeatHandler());
+                    socketChannel.pipeline().addLast(new IdleStateHandler(0,0,5, TimeUnit.SECONDS));
+                    socketChannel.pipeline().addLast(new HeartBeatHandler());
 //                    socketChannel.pipeline().addLast(new LineBasedFrameDecoder(2048)) ;
 //                    socketChannel.pipeline().addLast(new JSONDecoder()) ;
 //                    socketChannel.pipeline().addLast(new LengthFieldPrepender(4)) ;
@@ -53,6 +66,7 @@ public class HelloServer {
             future.channel().closeFuture().sync();// 等待Socket被关闭
         } catch (Exception e) {
             e.printStackTrace();
+            //start();
         } finally {
             workerGroup.shutdownGracefully() ;
             bossGroup.shutdownGracefully() ;

@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 非阻塞io，不是多路复用
@@ -14,7 +15,7 @@ import java.nio.charset.StandardCharsets;
  * @author 86136
  */
 public class NoBlockServer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         ServerSocketChannel socketChannel = ServerSocketChannel.open();
         socketChannel.configureBlocking(false);
         //Inet4Address.getLocalHost()只能通过本机的ipv4访问
@@ -37,7 +38,7 @@ public class NoBlockServer {
             //channel.configureBlocking(false);
             int readBytes = channel.read(buffer);
             buffer.flip();
-            if(readBytes!=-1){
+            if(readBytes>0){
                 System.out.println(readBytes);
                 byte[] bytes = new byte[readBytes];
                 buffer.get(bytes);
@@ -50,7 +51,11 @@ public class NoBlockServer {
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             String content="非阻塞Io";
             buffer.put(content.getBytes(StandardCharsets.UTF_8));
+            buffer.flip();
             channel.write(buffer);
+            write=false;
         }
+
+        TimeUnit.SECONDS.sleep(20);
     }
 }

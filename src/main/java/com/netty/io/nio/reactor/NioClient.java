@@ -2,6 +2,7 @@ package com.netty.io.nio.reactor;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -100,16 +101,19 @@ public class NioClient {
      }
 
      @SuppressWarnings("Duplicates")
-    private void handleReadableKey(SelectionKey key) throws ClosedChannelException {
+    private void handleReadableKey(SelectionKey key) throws IOException {
          // Client Socket Channel
          SocketChannel clientSocketChannel = (SocketChannel) key.channel();
-         // 读取数据
-//         ByteBuffer readBuffer = CodecUtil.read(clientSocketChannel);
-//         // 打印数据
-//         if (readBuffer.position() > 0) { // 写入模式下，
-//             String content = CodecUtil.newString(readBuffer);
-//             System.out.println("读取数据：" + content);
-//         }
+         //这里其实还要考虑粘包和拆包问题的，测试发送小数据忽略这个
+         ByteBuffer buffer = ByteBuffer.allocate(1024);
+         int readBuffer = clientSocketChannel.read(buffer);
+         // 打印数据
+         if (readBuffer > 0) {
+             buffer.flip();
+             byte[] bytes = new byte[readBuffer];
+             buffer.get(bytes);
+             System.out.println("读取数据：" + new String(bytes));
+         }
      }
 
      @SuppressWarnings("Duplicates")

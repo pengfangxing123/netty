@@ -20,9 +20,12 @@ public class Server {
     public static void main(String[] args) throws IOException {
         //开启一个socket连接
         ServerSocketChannel socketChannel = ServerSocketChannel.open();
+        //默认是true->阻塞，而注册到selectors上的channel必须是非阻塞的，所以设置为false
         socketChannel.configureBlocking(false);
         //Inet4Address.getLocalHost()只能通过本机的ipv4访问
         socketChannel.socket().bind(new InetSocketAddress(Inet4Address.getLocalHost(),8090));
+        //jdk大于1.7也可以这样绑定
+        //socketChannel.bind(new InetSocketAddress(Inet4Address.getLocalHost(),8090));
         //开启一个selector
         Selector selector = Selector.open();
 
@@ -31,9 +34,12 @@ public class Server {
 
         while (true){
             int n = selector.select();
-            if (n==0)
-                continue;//目前个人觉得 这个判断多余的 selector.select()会阻塞
-                        //补充：其实是有必要的，因为select()方法不会一直阻塞，因为epoll在timeout时间内如果没有事件，也会返回
+            if (n==0){
+                //目前个人觉得 这个判断多余的 selector.select()会阻塞
+                //补充：其实是有必要的，因为selector会存在bug，会返回0
+                // (原因好像是，操作系统给了错误的信息，给获取事件的代码，去获取事件，实际上是没有没实际的，所以会返回0)
+                continue;
+            }
             //获取准备就绪的事件
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()){

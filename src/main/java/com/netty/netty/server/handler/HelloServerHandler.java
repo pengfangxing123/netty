@@ -2,6 +2,8 @@ package com.netty.netty.server.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
@@ -18,6 +20,7 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter {
         super.channelActive(ctx);
     }
 
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
@@ -25,32 +28,46 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter {
 //            Member member = (Member) msg ;
 //            System.err.println("{服务器}" + member);
 //            member.setName("【ECHO】" + member.getName());
+            if(!ByteBuf.class.isAssignableFrom(msg.getClass())){
+                //这个handler也注册到了 Server上，而客户端的连接事件
+                ctx.fireChannelRead(msg);
+                return;
+            }
             ByteBuf buf =(ByteBuf)msg;
             System.out.println(buf.toString(CharsetUtil.UTF_8));
-            String backMsg="j1";
-            ByteBuf retBuf=Unpooled.buffer(backMsg.length());//这里不用创建的话会出现 引用计数为0的ByteBuf而引发的报错
-            retBuf.writeBytes(backMsg.getBytes());
+            //String backMsg="j1";
+            //ByteBuf retBuf=Unpooled.buffer(backMsg.length());//这里不用创建的话会出现 引用计数为0的ByteBuf而引发的报错
+            //retBuf.writeBytes(backMsg.getBytes());
            /* buf.clear();
             buf.writeBytes(backMsg.getBytes());*/
 //            ChannelFuture channelFuture = ctx.writeAndFlush(retBuf);// 回应的输出操作
 //            channelFuture.await();
-            ctx.channel().write(retBuf);
-            new Thread(()->{
-                ctx.write(retBuf);
-            }).start();
+//            ctx.channel().write(retBuf);
+//            new Thread(()->{
+//                ctx.write(retBuf);
+//            }).start();
 //            ctx.executor().execute(()->ctx.write(retBuf));
-            System.out.println((ctx.executor()==ctx.channel().eventLoop())+"####################");
-            System.out.println(ctx.executor().inEventLoop()+"************");
-            System.out.println((ctx.channel().eventLoop().inEventLoop())+"%%%%%%%%%%%%%%%%%%%");
-
-            boolean b = ctx.channel().eventLoop() == ctx.executor();
-            System.out.println(b+"#############");
-            System.out.println(ctx.channel().eventLoop().equals(ctx.executor())+"$$$$$$$$$$$$$$$$$$$$");
-            System.out.println(ctx.channel().eventLoop().inEventLoop());
-            System.out.println(ctx.executor().inEventLoop());
-            System.out.println( ctx.channel().eventLoop().inEventLoop(Thread.currentThread())+"&&&&&&&&&&&&&&&&&");
-            ctx.writeAndFlush(retBuf).await(); // 回应的输出操作
-            ctx.close();
+ //           System.out.println((ctx.executor()==ctx.channel().eventLoop())+"####################");
+//            System.out.println(ctx.executor().inEventLoop()+"************");
+//            System.out.println((ctx.channel().eventLoop().inEventLoop())+"%%%%%%%%%%%%%%%%%%%");
+//
+//            boolean b = ctx.channel().eventLoop() == ctx.executor();
+//            System.out.println(b+"#############");
+//            System.out.println(ctx.channel().eventLoop().equals(ctx.executor())+"$$$$$$$$$$$$$$$$$$$$");
+//            System.out.println(ctx.channel().eventLoop().inEventLoop());
+//            System.out.println(ctx.executor().inEventLoop());
+//            System.out.println( ctx.channel().eventLoop().inEventLoop(Thread.currentThread())+"&&&&&&&&&&&&&&&&&");
+            //ChannelFuture future = ctx.writeAndFlush(retBuf).await();// 回应的输出操作 这里如果给这个handler手动添加了exector，会死锁
+//            ChannelFuture future = ctx.writeAndFlush(retBuf).addListener(new ChannelFutureListener() {
+//                @Override
+//                public void operationComplete(ChannelFuture future) throws Exception {
+//                    System.out.println(future.get());
+//                }
+//            });
+//            new Thread(()->{
+//                future.cancel(false);
+//            }).start();
+//            ctx.close();
         } finally {
             ReferenceCountUtil.release(msg) ; // 释放缓存
         }

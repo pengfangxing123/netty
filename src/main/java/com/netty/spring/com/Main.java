@@ -23,13 +23,14 @@ public class Main {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class);
-        Car car = (Car) applicationContext.getBean("car");
-        car.run();
+//        Car car = (Car) applicationContext.getBean("car");
+//        car.run();
 
-//        Object internalConfigurationAnnotationProcessor = applicationContext.getBean("org.springframework.context.annotation.internalConfigurationAnnotationProcessor");
-//        System.out.println( internalConfigurationAnnotationProcessor.getClass().getTypeName());
-//        UserService bean = applicationContext.getBean(UserService.class);
-//        bean.insert();
+        //Object internalConfigurationAnnotationProcessor = applicationContext.getBean("org.springframework.context.annotation.internalConfigurationAnnotationProcessor");
+        //System.out.println( internalConfigurationAnnotationProcessor.getClass().getTypeName());
+        UserService bean = applicationContext.getBean(UserService.class);
+        bean.select(bean);
+        bean.insert();
 //        //发布一个事件
 //        applicationContext.publishEvent(new ApplicationEvent("hahahaha") {
 //            @Override

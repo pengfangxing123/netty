@@ -19,14 +19,13 @@ public class LoadResourceDemo {
     public static void main(String[] args) throws IOException {
         //当前类(class)所在的包目录
         System.out.println(CglibProxyTest.class.getResource(""));
+        //根目录
+        System.out.println(LoadResourceDemo.class.getResource("/settings.jar"));
 
         //这个linux下可能路径不一样
         System.out.println(Object.class.getResource("/settings.jar"));
         URL resource = Object.class.getResource("/settings.jar");
         System.out.println(new UrlResource(resource).exists());
-        //根目录
-        System.out.println(LoadResourceDemo.class.getResource("/settings.jar"));
-        System.out.println();
 
         //根目录
         System.out.println(LoadResourceDemo.class.getClassLoader().getResource("settings.jar"));

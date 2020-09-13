@@ -1,6 +1,7 @@
 package com.netty;
 
 import com.google.common.collect.Lists;
+import io.netty.util.IllegalReferenceCountException;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -156,9 +157,8 @@ public class Test {
 //        }).collect(Collectors.toList());
 //        System.out.println(collect.toString());
 
-        int n=12;
-        int i = n - (n >>> 2);
-        System.out.println(i);
+
+
 //
 //        System.out.println(Inet4Address.getLocalHost().getHostAddress());
 //        List<Integer>list=new ArrayList<>();
@@ -172,6 +172,42 @@ public class Test {
 //        String filename = resource.getFilename();
 //        System.out.println(filename);
 
+        //testException();
+        //testStack();
+        Map<String, String> map=new HashMap<>();
+        map.put("name","name");
+        map.put("age","age");
+        System.out.println(map);
+    }
 
+
+    public static void testException(){
+        int rawCnt=2, decrement=1;
+
+        int magic=99;
+        if (rawCnt == 2 || rawCnt == 4 || (rawCnt & 1) == 0) {
+            magic=rawCnt >>> 1;
+        }
+        // odd rawCnt => already deallocated
+        throw new IllegalReferenceCountException(0, -decrement);
+    }
+
+
+    public static void testStack(){
+        System.out.println(Arrays.toString(new Exception().getStackTrace()));
+        System.out.println();
+        System.out.println();
+        System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
+        testStack2();
+
+    }
+
+    public static void testStack2(){
+        System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
+        testStack3();
+    }
+
+    public static void testStack3(){
+        System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
     }
 }

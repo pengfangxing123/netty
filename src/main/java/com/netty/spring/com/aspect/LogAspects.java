@@ -32,6 +32,7 @@ public class LogAspects {
         System.out.println("doAfterReturning");
     }
 
+    @Around("webLog()")
     public void test(){
         System.out.println("MethodCallback");
     }

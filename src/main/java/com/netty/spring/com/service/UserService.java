@@ -5,4 +5,6 @@ package com.netty.spring.com.service;
  */
 public interface UserService {
     void insert();
+
+    void select(UserService user);
 }

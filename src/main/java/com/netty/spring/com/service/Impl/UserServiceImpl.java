@@ -21,4 +21,10 @@ public class UserServiceImpl implements UserService {
         int i=1/0;
         System.out.println("success");
     }
+
+    @Override
+    public void select(UserService user) {
+        System.out.println("sss");
+        user.insert();
+    }
 }

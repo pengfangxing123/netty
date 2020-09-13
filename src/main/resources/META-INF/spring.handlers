@@ -1,1 +1,3 @@
 http\://www.cmsblogs.com/schema/user=com.netty.spring.xml.customxmltag.handler.UserNamespaceHandler
+http\://www.ares-remoting.com/schema/ares-service=com.netty.rpc.spring.RpcRemoteServiceNamespaceHandler
+http\://www.ares-remoting.com/schema/ares-reference=com.netty.rpc.spring.RpcRemoteReferenceNamespaceHandler
